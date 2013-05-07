@@ -1,0 +1,14 @@
+Package: shinyGridster
+Type: Package
+Title: Gridster package for Shiny
+Version: 0.0.1
+Author: RStudio, Inc.
+Maintainer: Winston Chang <winston@rstudio.com>
+Description: Gridster for Shiny
+License: GPL-3
+Depends:
+    R (>= 2.14.1)
+Imports:
+    shiny (>= 0.5.0)
+Collate:
+    'gridster.r'
