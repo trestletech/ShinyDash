@@ -1,25 +1,45 @@
 \name{gridster}
 \alias{gridster}
-\title{#Action button
-#
-#Creates an action button whose value is initially zero, and increments by one
-#each time it is pressed.
-#
-#}
+\title{Create a Gridster frame on a Shiny web page}
 \usage{
-  gridster(...)
+  gridster(..., marginx = 16, marginy = 16, width = 140,
+    height = 140)
 }
 \arguments{
-  \item{inputId}{Specifies the input slot that will be used
-  to access the # value. #}
+  \item{marginx}{Horizontal margin between each grid item,
+  in pixels.}
 
-  \item{label}{The contents of the button--usually a text
-  label, but you could # also use any other HTML, like an
-  image. # #}
+  \item{marginy}{Vertical margin between each grid item, in
+  pixels.}
+
+  \item{width}{Width of each tile, in pixels.}
+
+  \item{height}{Height of each tile, in pixels.}
+
+  \item{...}{Other properties or elements to include.}
 }
 \description{
-  #Action button # #Creates an action button whose value is
-  initially zero, and increments by one #each time it is
-  pressed. # #
+  Create a Gridster frame on a Shiny web page
+}
+\examples{
+\dontrun{
+shinyUI(bootstrapPage(
+
+ gridster(width = 200, height = 200,
+   gridsterItem(col = 1, row = 1, sizex = 1, sizey = 1,
+     sliderInput("n", "Input value:", min = 0, max = 50, value = 10)
+   ),
+   gridsterItem(col = 2, row = 1, sizex = 1, sizey = 1,
+     textOutput("myText")
+   ),
+   gridsterItem(col = 1, row = 2, sizex = 2, sizey = 1,
+     plotOutput("myPlot", height = 200)
+   )
+ )
+)
+}
+}
+\seealso{
+  \code{\link{gridsterItem}}
 }
 
