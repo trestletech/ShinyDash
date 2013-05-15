@@ -1,5 +1,6 @@
 $(function(){ //DOM Ready
  
+  // Initialize any divs with class gridster
   $(".gridster ul").each(function() {
     $el = $(this);
 
