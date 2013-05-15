@@ -10,10 +10,7 @@
 }
 
 .gridster {
-    width: 940px;
     margin: 0 auto;
-
-    opacity: .8;
 
     -webkit-transition: opacity .6s;
     -moz-transition: opacity .6s;
@@ -25,8 +22,6 @@
 .gridster .gs_w {
     background: #FFF;
     cursor: pointer;
-    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
-    box-shadow: 0 0 5px rgba(0,0,0,0.3);
     padding: 8px;
 }
 
