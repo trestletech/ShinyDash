@@ -1,24 +1,4 @@
 /* Gridster styles */
-.demo {
-    margin: 3em 0;
-    padding: 7.5em 0 5.5em;
-    background: #004756;
-}
-
-.demo:hover .gridster {
-    opacity: 1;
-}
-
-.gridster {
-    margin: 0 auto;
-
-    -webkit-transition: opacity .6s;
-    -moz-transition: opacity .6s;
-    -o-transition: opacity .6s;
-    -ms-transition: opacity .6s;
-    transition: opacity .6s;
-}
-
 .gridster .gs_w {
     background: #FFF;
     cursor: pointer;
