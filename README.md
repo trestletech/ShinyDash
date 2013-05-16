@@ -1,7 +1,7 @@
 shinyGridster
 ===============
 
-Examples and ideas that don't belong in the core Shiny package and aren't officially supported.
+An R package for using the Gridster Javascript library with the Shiny framework for R.
 
 To install, install the `devtools` package if necessary (`install.packages("devtools")`) and run:
 
