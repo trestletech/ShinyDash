@@ -26,21 +26,33 @@
 #' )
 #' }
 #' @export
+#' @author Winston Chang
 gridster <- function(..., marginx = 16, marginy = 16, width = 140, height = 140) {
   addResourcePath(
-    prefix = 'gridster',
-    directoryPath = system.file('gridster', package='shinyGridster'))
+    prefix = 'shinyDash',
+    directoryPath = system.file('shinyDash', package='ShinyDash'))
 
   tagList(
     singleton(tags$head(
-      tags$script(src = 'gridster/jquery.gridster.min.js'),
+      tags$script(src = 'shinyDash/gridster/jquery.gridster.min.js'),
       tags$link(rel = 'stylesheet',
                 type = 'text/css',
-                href = 'gridster/jquery.gridster.min.css'),
-      tags$script(src = 'gridster/shiny-gridster-init.js'),
+                href = 'shinyDash/gridster/jquery.gridster.min.css'),
+      tags$script(src = 'shinyDash/gridster/shiny-dash-init.js'),
       tags$link(rel = 'stylesheet',
                 type = 'text/css',
-                href = 'gridster/shiny-gridster.css')
+                href = 'shinyDash/gridster/shiny-dash.css'),
+      tags$script(src = 'shinyDash/highcharts/highcharts.js'),
+      tags$script(src = 'shinyDash/highcharts/initchart.js'),
+      tags$script(src = 'shinyDash/justgage/justgage.1.0.1.min.js'),
+      tags$script(src = 'shinyDash/justgage/raphael.2.1.0.min.js'),      
+      tags$script(src = 'shinyDash/justgage/justgage_binding.js'),
+      tags$script(src = 'shinyDash/shiny_status_binding.js'),
+      tags$link(rel = 'stylesheet',
+                type = 'text/css',
+                href = 'shinyDash/styles.css')
+      
+      
     )),
 
     tags$div(class = "gridster",
@@ -66,6 +78,7 @@ gridster <- function(..., marginx = 16, marginy = 16, width = 140, height = 140)
 #' @seealso \code{\link{gridster}}
 #'
 #' @export
+#' @author Winston Chang
 gridsterItem <- function(..., col = NULL, row = NULL, sizex = NULL, sizey = NULL) {
   tags$li(`data-col` = col,
           `data-row` = row,

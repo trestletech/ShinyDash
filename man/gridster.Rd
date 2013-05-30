@@ -39,6 +39,9 @@ shinyUI(bootstrapPage(
 )
 }
 }
+\author{
+  Winston Chang
+}
 \seealso{
   \code{\link{gridsterItem}}
 }

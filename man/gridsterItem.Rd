@@ -20,6 +20,9 @@
   Add a Gridster item within a Gridster frame to a Shiny
   web page
 }
+\author{
+  Winston Chang
+}
 \seealso{
   \code{\link{gridster}}
 }
