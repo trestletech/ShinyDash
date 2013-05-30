@@ -1,6 +1,8 @@
 ShinyDash
 =========
 
+A sample application built on the `ShinyDash` package is available [here](https://github.com/trestletech/ShinyDash-Sample). This example is hosted online at http://spark.rstudio.com/trestletech/ShinyDash-Sample/.
+
 To install, install the `devtools` package if necessary (`install.packages("devtools")`) and run:
 
 ```
