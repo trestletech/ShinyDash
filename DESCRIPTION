@@ -12,3 +12,4 @@ Imports:
     shiny (>= 0.5.0)
 Collate:
     'gridster.r'
+    'gaugeOutput.R'
