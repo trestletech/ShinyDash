@@ -32,7 +32,7 @@
 #' } 
 #' }
 #' @seealso \code{\link{reactive}}
-#' @author Jeff Allen <jeff.allen@trestletechnology.net>
+#' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 #' @export
 gaugeOutput <- function(outputId, width, height) {
   tagList(
