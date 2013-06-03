@@ -37,27 +37,49 @@ lineGraphOutput <- function(outputId, width, height) {
   tagList(
     singleton(tags$head(
       tags$script(src = 'shinyDash/rickshaw/d3.v3.min.js'),
-      tags$script(src = 'shinyDash/rickshaw/rickshaw.min.js')      
+      tags$script(src = 'shinyDash/rickshaw/rickshaw.min.js'),
+      tags$script(src = 'shinyDash/rickshaw/initRickshaw.js')  
     )),
     tags$div(id = outputId, class = "rickshaw_output", style = 
                paste("width:", shiny:::validateCssUnit(width), ";", "height:", 
                      shiny:::validateCssUnit(height), ";")),
-    tags$script(paste0('var graph = new Rickshaw.Graph({
-  element: document.querySelector("#',outputId,'"),
-  width: \'', (width),'\',
-  height: \'', (height),'\',
-  series: [{
-    color: \'steelblue\',
-     data: [
-      { x: 0, y: 40 },
-      { x: 1, y: 49 },
-      { x: 2, y: 38 },
-      { x: 3, y: 30 },
-      { x: 4, y: 32 } ]
-  }]
+    tags$script(paste0('
+
+$(document).ready(function() { 
+  var graph = new Rickshaw.Graph({
+    element: document.querySelector("#',outputId,'"),
+    width: \'', (width),'\',
+    height: \'', (height),'\',
+    series: [{
+       name: \'y0\',
+       color: \'steelblue\',
+       data: [
+        { x: 1370229148791, y: 40 },
+        { x: 1370229148796, y: 49 },
+        { x: 1370229148801, y: 38 },
+        { x: 1370229148806, y: 30 },
+        { x: 1370229148811, y: 32 } ]
+    }]
+    
+  });
   
-});
-                       
-graph.render();'))
-  )
+    
+
+
+  // Handle messages from server - update graph
+  Shiny.addCustomMessageHandler("updateRickshaw",
+    function(message) {
+      //only subscribe to events associated with this graph.
+      if (message.name == "',outputId,'"){
+        var data = parseRickshawData(message);
+        graph.series = _spliceSeries({ data: data, series: graph.series });
+
+        graph.render();
+      }
+    }
+  );
+
+  graph.render();
+});'))
+)
 }
