@@ -55,10 +55,11 @@ $(document).ready(function() {
     height: \'', (height),'\',
     renderer: \'line\',
     series: [{
-       name: \'y0\',
+       name: \'__rickshaw-init\',
        color: \'steelblue\',
        data: [ {x:0,y:0} ]
-    }]
+    } 
+    ]
   });
 
   // Handle messages from server - update graph
