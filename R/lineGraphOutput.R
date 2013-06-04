@@ -67,7 +67,7 @@ $(document).ready(function() {
       //only subscribe to events associated with this graph.
       if (message.name == "',outputId,'"){
         var data = parseRickshawData(message);
-        graph.series = _spliceSeries({ data: data, series: graph.series });
+        graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
 
         graph.render();
       }

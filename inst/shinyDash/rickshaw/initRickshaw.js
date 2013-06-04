@@ -16,7 +16,7 @@ function parseRickshawData(data){
   return series;
 }
 
-function _spliceSeries(args) {
+function _spliceSeries(args, maxLength) {
   
     	var data = args.data;
   		var series = args.series;
@@ -42,7 +42,9 @@ function _spliceSeries(args) {
               s.data = new Array();
             }
             s.data.push(dataPt);
-            
+            if (s.data.length >= maxLength){
+              s.data.shift();
+            }
   				}
   			} );
   		} );
