@@ -38,7 +38,10 @@ lineGraphOutput <- function(outputId, width, height) {
     singleton(tags$head(
       tags$script(src = 'shinyDash/rickshaw/d3.v3.min.js'),
       tags$script(src = 'shinyDash/rickshaw/rickshaw.min.js'),
-      tags$script(src = 'shinyDash/rickshaw/initRickshaw.js')  
+      tags$script(src = 'shinyDash/rickshaw/initRickshaw.js'),
+      tags$link(rel = 'stylesheet',
+                type = 'text/css',
+                href = 'shinyDash/rickshaw/rickshaw.min.css')
     )),
     tags$div(id = outputId, class = "rickshaw_output", style = 
                paste("width:", shiny:::validateCssUnit(width), ";", "height:", 
@@ -50,21 +53,13 @@ $(document).ready(function() {
     element: document.querySelector("#',outputId,'"),
     width: \'', (width),'\',
     height: \'', (height),'\',
+    renderer: \'line\',
     series: [{
        name: \'y0\',
        color: \'steelblue\',
-       data: [
-        { x: 1370229148791, y: 40 },
-        { x: 1370229148796, y: 49 },
-        { x: 1370229148801, y: 38 },
-        { x: 1370229148806, y: 30 },
-        { x: 1370229148811, y: 32 } ]
+       data: [ {x:0,y:0} ]
     }]
-    
   });
-  
-    
-
 
   // Handle messages from server - update graph
   Shiny.addCustomMessageHandler("updateRickshaw",
@@ -79,7 +74,21 @@ $(document).ready(function() {
     }
   );
 
+  var xAxis = new Rickshaw.Graph.Axis.Time({
+      graph: graph
+  });
+  
+  xAxis.render();
+
+
+  var yAxis = new Rickshaw.Graph.Axis.Y({
+      graph: graph
+  });
+  yAxis.render();
+
   graph.render();
+
+
 });'))
 )
 }

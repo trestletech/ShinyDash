@@ -38,7 +38,11 @@ function _spliceSeries(args) {
             var dataPt = new Object();
             dataPt['x'] = d['x'];
             dataPt['y'] = d['y'];
+            if (s.data.length == 1 && s.data[0].x == 0){
+              s.data = new Array();
+            }
             s.data.push(dataPt);
+            
   				}
   			} );
   		} );
