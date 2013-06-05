@@ -2,7 +2,8 @@
 \alias{lineGraphOutput}
 \title{Render a line graph widget within an application page.}
 \usage{
-  lineGraphOutput(outputId, width, height)
+  lineGraphOutput(outputId, width, height,
+    axisType = c("numeric", "time"), legend = TRUE)
 }
 \arguments{
   \item{outputId}{output variable which will be used in
@@ -15,6 +16,16 @@
   \item{height}{Graph height Must be a valid CSS unit (like
   "100%", "400px", "auto") or a number, which will be
   coerced to a string and have "px" appended.}
+
+  \item{axisType}{The type of X-axis to use for the graph.
+  \code{time} assumes the data will be provided as a number
+  of seconds since the epoch (see \code{\link{Sys.time}})
+  and will render them accordingly. \code{numeric} will not
+  manipulate the provided numeric values.}
+
+  \item{legend}{If \code{TRUE}, an interactive legend of
+  all series of data displayed in the graph will be
+  visible.}
 }
 \description{
   Render a line graph widget within an application page.

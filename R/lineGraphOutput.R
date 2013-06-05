@@ -8,6 +8,12 @@
 #' @param height Graph height Must be a valid CSS unit (like "100%", "400px", 
 #' "auto") or a number, which will be coerced to a string and have "px" 
 #' appended.
+#' @param axisType The type of X-axis to use for the graph. \code{time} assumes
+#' the data will be provided as a number of seconds since the epoch (see 
+#' \code{\link{Sys.time}}) and will render them accordingly. \code{numeric} will 
+#' not manipulate the provided numeric values.
+#' @param legend If \code{TRUE}, an interactive legend of all series of data
+#' displayed in the graph will be visible.
 #' @examples
 #' \dontrun{
 #' #in ui.R
@@ -33,7 +39,35 @@
 #' @seealso \code{\link{observe}}
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 #' @export
-lineGraphOutput <- function(outputId, width, height) {
+lineGraphOutput <- function(outputId, width, height, 
+                            axisType=c("numeric", "time"),
+                            legend = TRUE) {
+  
+  axisType <- match.arg(axisType)
+  axisType <- switch(axisType, 
+         time = "Time",
+         numeric = "X")
+  
+  legendStr <- ""
+  if (legend){
+    legendStr <- paste0('
+  var legend = new Rickshaw.Graph.Legend({
+    graph: graph,
+    element: document.querySelector(\'#',outputId,'-legend\')
+  });
+
+  var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+    graph: graph,
+    legend: legend
+  });
+  
+  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
+      graph: graph,
+      legend: legend
+  });
+')
+  }
+  
   tagList(
     singleton(tags$head(
       tags$script(src = 'shinyDash/rickshaw/d3.v3.min.js'),
@@ -46,6 +80,12 @@ lineGraphOutput <- function(outputId, width, height) {
     tags$div(id = outputId, class = "rickshaw_output", style = 
                paste("width:", shiny:::validateCssUnit(width), ";", "height:", 
                      shiny:::validateCssUnit(height), ";")),
+    
+    #include the legend element if 'legend' is true.
+    ifelse(legend, 
+           tags$div(id= paste0(outputId, "-legend"), class="rickshaw_legend",
+             style=paste0("float: left; margin-left: 50px; margin-top: -",shiny:::validateCssUnit(height))),
+           ""),
     tags$script(paste0('
 
 $(document).ready(function() { 
@@ -69,13 +109,28 @@ $(document).ready(function() {
       if (message.name == "',outputId,'"){
         var data = parseRickshawData(message);
         graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
-
+        
+      
+        ',
+          #if 'legend' is present, update it.
+          ifelse(legend,'
+          //refresh legend
+          legend.lines = [];
+          while(legend.list.firstChild){
+            legend.list.removeChild(legend.list.firstChild);
+          }
+            
+          legend.series = graph.series;
+          legend.series.forEach( function(s) {
+           legend.addLine(s);
+          } );', ''),
+'
         graph.render();
       }
     }
   );
 
-  var xAxis = new Rickshaw.Graph.Axis.Time({
+  var xAxis = new Rickshaw.Graph.Axis.',axisType,'({
       graph: graph
   });
   
@@ -88,6 +143,9 @@ $(document).ready(function() {
   yAxis.render();
 
   graph.render();
+
+  ',legendStr,
+'
 
 
 });'))
