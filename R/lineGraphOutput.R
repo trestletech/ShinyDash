@@ -62,11 +62,6 @@ lineGraphOutput <- function(outputId, width, height,
     element: document.getElementById(\'',outputId,'-legend\')
   });
 
-  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
-      graph: graph,
-      legend: legend
-  });
-
 ')
   }
   
@@ -75,7 +70,6 @@ lineGraphOutput <- function(outputId, width, height,
       tags$script(src = 'shinyDash/rickshaw/d3.v3.min.js'),
       tags$script(src = 'shinyDash/rickshaw/rickshaw.min.js'),
       tags$script(src = 'shinyDash/rickshaw/initRickshaw.js'),
-      tags$script(src = 'shinyDash/rickshaw/jquery-ui-1.10.3.custom.min.js'),
       tags$link(rel = 'stylesheet',
                 type = 'text/css',
                 href = 'shinyDash/rickshaw/rickshaw.min.css')
@@ -125,25 +119,6 @@ $(document).ready(function() {
           legend.series.forEach( function(s) {
             legend.addLine(s);
           } );
-          
-          legend.lines.forEach( function(l) {
-            highlighter.addHighlightEvents(l);
-          });
-
-          $(legend.list).sortable( {
-            start: function(event, ui) {
-              ui.item.bind(\'no.onclick\',
-              function(event) {
-                event.preventDefault();
-              }
-              );
-            },
-            stop: function(event, ui) {
-              setTimeout(function(){
-                ui.item.unbind(\'no.onclick\');
-              }, 250);
-            }
-          });
                
 '),
 '
