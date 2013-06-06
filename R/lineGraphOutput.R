@@ -48,6 +48,12 @@ lineGraphOutput <- function(outputId, width, height,
          time = "Time",
          numeric = "X")
   
+  legendDiv <- ""
+  if (legend){
+      legendDiv <- tags$div(id= paste0(outputId, "-legend"), class="rickshaw_legend",
+           style=paste0("float: left; margin-left: 50px; margin-top: -",shiny:::validateCssUnit(height), ";"))
+  }
+  
   legendStr <- ""
   if (legend){
     legendStr <- paste0('
@@ -56,14 +62,14 @@ lineGraphOutput <- function(outputId, width, height,
     element: document.querySelector(\'#',outputId,'-legend\')
   });
 
-  var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
-    graph: graph,
-    legend: legend
-  });
-  
   var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
       graph: graph,
       legend: legend
+  });
+
+  var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+    graph: graph,
+    legend: legend
   });
 ')
   }
@@ -73,6 +79,7 @@ lineGraphOutput <- function(outputId, width, height,
       tags$script(src = 'shinyDash/rickshaw/d3.v3.min.js'),
       tags$script(src = 'shinyDash/rickshaw/rickshaw.min.js'),
       tags$script(src = 'shinyDash/rickshaw/initRickshaw.js'),
+      tags$script(src = 'shinyDash/rickshaw/jquery-ui-1.10.3.custom.min.js'),
       tags$link(rel = 'stylesheet',
                 type = 'text/css',
                 href = 'shinyDash/rickshaw/rickshaw.min.css')
@@ -82,10 +89,7 @@ lineGraphOutput <- function(outputId, width, height,
                      shiny:::validateCssUnit(height), ";")),
     
     #include the legend element if 'legend' is true.
-    ifelse(legend, 
-           tags$div(id= paste0(outputId, "-legend"), class="rickshaw_legend",
-             style=paste0("float: left; margin-left: 50px; margin-top: -",shiny:::validateCssUnit(height))),
-           ""),
+    legendDiv,
     tags$script(paste0('
 
 $(document).ready(function() { 
@@ -93,7 +97,7 @@ $(document).ready(function() {
     element: document.querySelector("#',outputId,'"),
     width: \'', (width),'\',
     height: \'', (height),'\',
-    renderer: \'line\',
+    renderer: \'area\',
     series: [{
        name: \'__rickshaw-init\',
        color: \'steelblue\',
@@ -102,33 +106,35 @@ $(document).ready(function() {
     ]
   });
 
+  
   // Handle messages from server - update graph
   Shiny.addCustomMessageHandler("updateRickshaw",
-    function(message) {
-      //only subscribe to events associated with this graph.
-      if (message.name == "',outputId,'"){
-        var data = parseRickshawData(message);
-        graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
-        
-      
-        ',
-          #if 'legend' is present, update it.
-          ifelse(legend,'
-          //refresh legend
-          legend.lines = [];
-          while(legend.list.firstChild){
-            legend.list.removeChild(legend.list.firstChild);
-          }
-            
-          legend.series = graph.series;
-          legend.series.forEach( function(s) {
-           legend.addLine(s);
-          } );', ''),
-'
-        graph.render();
-      }
-    }
-  );
+                       function(message) {
+                       //only subscribe to events associated with this graph.
+                       if (message.name == "',outputId,'"){
+                       var data = parseRickshawData(message);
+                       graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
+                       
+                       
+                       ',
+                       #if 'legend' is present, update it.
+                       ifelse(legend,'
+                 //refresh legend
+                 legend.lines = [];
+                 while(legend.list.firstChild){
+                 legend.list.removeChild(legend.list.firstChild);
+                 }
+                 
+                 legend.series = graph.series;
+                 legend.series.forEach( function(s) {
+                 legend.addLine(s);
+                 } );', ''),
+                       '
+                       graph.render();
+                       }
+                       }
+    );
+
 
   var xAxis = new Rickshaw.Graph.Axis.',axisType,'({
       graph: graph
@@ -146,7 +152,7 @@ $(document).ready(function() {
 
   ',legendStr,
 '
-
+                       
 
 });'))
 )
