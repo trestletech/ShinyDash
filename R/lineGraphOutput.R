@@ -59,7 +59,7 @@ lineGraphOutput <- function(outputId, width, height,
     legendStr <- paste0('
   var legend = new Rickshaw.Graph.Legend({
     graph: graph,
-    element: document.querySelector(\'#',outputId,'-legend\')
+    element: document.getElementById(\'',outputId,'-legend\')
   });
 
   var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
@@ -67,10 +67,6 @@ lineGraphOutput <- function(outputId, width, height,
       legend: legend
   });
 
-  var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
-    graph: graph,
-    legend: legend
-  });
 ')
   }
   
@@ -97,7 +93,7 @@ $(document).ready(function() {
     element: document.querySelector("#',outputId,'"),
     width: \'', (width),'\',
     height: \'', (height),'\',
-    renderer: \'area\',
+    renderer: \'line\',
     series: [{
        name: \'__rickshaw-init\',
        color: \'steelblue\',
@@ -109,31 +105,52 @@ $(document).ready(function() {
   
   // Handle messages from server - update graph
   Shiny.addCustomMessageHandler("updateRickshaw",
-                       function(message) {
-                       //only subscribe to events associated with this graph.
-                       if (message.name == "',outputId,'"){
-                       var data = parseRickshawData(message);
-                       graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
+     function(message) {
+       //only subscribe to events associated with this graph.
+       if (message.name == "',outputId,'"){
+        var data = parseRickshawData(message);
+        graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
+     
                        
-                       
-                       ',
-                       #if 'legend' is present, update it.
-                       ifelse(legend,'
-                 //refresh legend
-                 legend.lines = [];
-                 while(legend.list.firstChild){
-                 legend.list.removeChild(legend.list.firstChild);
-                 }
+',
+        #if 'legend' is present, update it.
+        ifelse(legend,'
+          //refresh legend
+          legend.lines = [];
+          while(legend.list.firstChild){
+            legend.list.removeChild(legend.list.firstChild);
+          }
                  
-                 legend.series = graph.series;
-                 legend.series.forEach( function(s) {
-                 legend.addLine(s);
-                 } );', ''),
-                       '
-                       graph.render();
-                       }
-                       }
-    );
+          legend.series = graph.series;
+          legend.series.forEach( function(s) {
+            legend.addLine(s);
+          } );
+          
+          legend.lines.forEach( function(l) {
+            highlighter.addHighlightEvents(l);
+          });
+
+          $(legend.list).sortable( {
+            start: function(event, ui) {
+              ui.item.bind(\'no.onclick\',
+              function(event) {
+                event.preventDefault();
+              }
+              );
+            },
+            stop: function(event, ui) {
+              setTimeout(function(){
+                ui.item.unbind(\'no.onclick\');
+              }, 250);
+            }
+          });
+               
+'),
+'
+      graph.render();
+    }
+  }
+  );
 
 
   var xAxis = new Rickshaw.Graph.Axis.',axisType,'({
