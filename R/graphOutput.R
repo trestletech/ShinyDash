@@ -94,7 +94,7 @@ var hoverDetail = new Rickshaw.Graph.HoverDetail( {
 $(document).ready(function() { 
   // Handle messages from server - update graph
   var graph;
-  Shiny.addCustomMessageHandler("updateRickshaw",
+  ShinyRickshawCallback.addRickshawHandler(
      function(message) {
        
         var data = parseRickshawData(message);

@@ -68,8 +68,37 @@ function _spliceSeries(args, maxLength) {
   		} );
 
 		return series;
-	}
+	}  
   
+//maintain the list of callbacks associated with ShinyDash's Rickshaw integration
+function ShinyRickshaw (){  
+  var callbacks = this.callbacks = Array();
+  var self = this;
+  
+  //Add a new callback handler
+  this.addRickshawHandler = function(callback){
+    callbacks[callbacks.length] = callback;
+  }
+  
+  //fire the message to all callbacks
+  this.fireMessage = function(message){
+    callbacks.forEach( function(s){
+      s(message);
+    });
+  }
+}
+
+//instantiate a new callback handler.
+var ShinyRickshawCallback = new ShinyRickshaw();
+
+//broadcast the message to all subscribed callbacks.
+Shiny.addCustomMessageHandler("updateRickshaw", 
+  function(message){
+    ShinyRickshawCallback.fireMessage(message);
+  }
+);
+
+
 function ISODateString(d){
   function pad(n){return n<10 ? '0'+n : n}
   return d.getUTCFullYear()+'-'
