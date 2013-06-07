@@ -3,7 +3,8 @@
 \title{Render a line graph widget within an application page.}
 \usage{
   lineGraphOutput(outputId, width, height,
-    axisType = c("numeric", "time"), legend = TRUE)
+    axisType = c("numeric", "time"), legend = TRUE,
+    toolTip = TRUE)
 }
 \arguments{
   \item{outputId}{output variable which will be used in
@@ -26,6 +27,11 @@
   \item{legend}{If \code{TRUE}, an interactive legend of
   all series of data displayed in the graph will be
   visible.}
+
+  \item{toolTip}{If \code{TRUE}, a tooltip providing
+  additional information about the values in the graph will
+  be available when the user points the mouse at the
+  graph.}
 }
 \description{
   Render a line graph widget within an application page.

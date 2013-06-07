@@ -14,6 +14,9 @@
 #' not manipulate the provided numeric values.
 #' @param legend If \code{TRUE}, an interactive legend of all series of data
 #' displayed in the graph will be visible.
+#' @param toolTip If \code{TRUE}, a tooltip providing additional information
+#' about the values in the graph will be available when the user points the
+#' mouse at the graph.
 #' @examples
 #' \dontrun{
 #' #in ui.R
@@ -41,18 +44,36 @@
 #' @export
 lineGraphOutput <- function(outputId, width, height, 
                             axisType=c("numeric", "time"),
-                            legend = TRUE) {
+                            legend = TRUE,
+                            toolTip = TRUE) {
   
-  axisType <- match.arg(axisType)
-  axisType <- switch(axisType, 
-         time = "Time",
-         numeric = "X")
+  
   
   legendDiv <- ""
   if (legend){
       legendDiv <- tags$div(id= paste0(outputId, "-legend"), class="rickshaw_legend",
            style=paste0("float: left; margin-left: 50px; margin-top: -",shiny:::validateCssUnit(height), ";"))
   }
+  
+  toolTipStr <- ""
+  if (toolTip){
+    toolTipStr <- paste0('
+var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+    graph: graph,
+    xFormatter: function(x) { ', 
+      ifelse(axisType=="time",
+        'return ISODateString(new Date(x*1000))',
+        'return Math.floor(x)'
+      ),'},
+    yFormatter: function(y) { return Math.floor(y) }
+} );
+')
+  }
+  
+  axisType <- match.arg(axisType)
+  axisType <- switch(axisType, 
+                     time = "Time",
+                     numeric = "X")
   
   legendStr <- ""
   if (legend){
@@ -71,7 +92,6 @@ lineGraphOutput <- function(outputId, width, height,
     graph: graph,
     legend: legend
   });
-
 ')
   }
   
@@ -130,6 +150,7 @@ $(document).ready(function() {
 
 
             ',legendStr,'
+            ',toolTipStr,'
 
           }
 
