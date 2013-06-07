@@ -18,3 +18,5 @@ Collate:
     'graphOutput.R'
     'areaGraphOutput.R'
     'htmlWidgetOutput.R'
+    'renderWeather.R'
+    'weatherWidgetOutput.R'
