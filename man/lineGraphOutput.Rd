@@ -4,9 +4,29 @@
 \usage{
   lineGraphOutput(outputId, width, height,
     axisType = c("numeric", "time"), legend = TRUE,
-    toolTip = TRUE)
+    toolTip = TRUE,
+    type = c("line", "scatterplot", "area", "bar"))
+
+  lineGraphOutput(outputId, width, height,
+    axisType = c("numeric", "time"), legend = TRUE,
+    toolTip = TRUE,
+    type = c("line", "scatterplot", "area", "bar"))
 }
 \arguments{
+  \item{outputId}{output variable which will be used in
+  addressing update messages.}
+
+  \item{width}{Graph width. Must be a valid CSS unit (like
+  "100%", "400px", "auto") or a number, which will be
+  coerced to a string and have "px" appended.}
+
+  \item{height}{Graph height Must be a valid CSS unit (like
+  "100%", "400px", "auto") or a number, which will be
+  coerced to a string and have "px" appended.}
+
+  \item{...}{Additional arguments to be passed to
+  \code{\link{graphOutput}}.}
+
   \item{outputId}{output variable which will be used in
   addressing update messages.}
 
@@ -32,9 +52,14 @@
   additional information about the values in the graph will
   be available when the user points the mouse at the
   graph.}
+
+  \item{type}{The renderer to use when displaying the
+  graph.}
 }
 \description{
   Render a line graph widget within an application page.
+
+  Render a Rickshaw graph
 }
 \examples{
 \dontrun{
@@ -55,14 +80,23 @@ shinyUI(bootstrapPage(#'
 
 #The corresponding server.R
 shinyServer(function(input, output, session) {
- output$myGraph <- {}#TODO
+ sendGraphData("myGraph", {
+   list(
+     y0 = 13,
+     y1 = 15.3
+   )
+ })
 }
 }
 }
 \author{
   Jeff Allen <jeff.allen@trestletechnology.net>
+
+  Jeff Allen <jeff.allen@trestletechnology.net>
 }
 \seealso{
-  \code{\link{observe}}
+  \code{\link{observe}} \code{\link{graphOutput}}
+
+  \code{\link{lineGraphOutput}}
 }
 
