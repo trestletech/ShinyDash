@@ -57,9 +57,19 @@ lineGraphOutput <- function(outputId, width, height,
   legendStr <- ""
   if (legend){
     legendStr <- paste0('
-  var legend = new Rickshaw.Graph.Legend({
+  legend = new Rickshaw.Graph.Legend({
     graph: graph,
     element: document.getElementById(\'',outputId,'-legend\')
+  });
+
+  var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+    graph: graph,
+    legend: legend
+  });
+
+  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
+    graph: graph,
+    legend: legend
   });
 
 ')
@@ -83,68 +93,52 @@ lineGraphOutput <- function(outputId, width, height,
     tags$script(paste0('
 
 $(document).ready(function() { 
-  var graph = new Rickshaw.Graph({
-    element: document.querySelector("#',outputId,'"),
-    width: \'', (width),'\',
-    height: \'', (height),'\',
-    renderer: \'line\',
-    series: [{
-       name: \'__rickshaw-init\',
-       color: \'steelblue\',
-       data: [ {x:0,y:0} ]
-    } 
-    ]
-  });
-
-  
   // Handle messages from server - update graph
+  var graph;
   Shiny.addCustomMessageHandler("updateRickshaw",
      function(message) {
-       //only subscribe to events associated with this graph.
-       if (message.name == "',outputId,'"){
+       
         var data = parseRickshawData(message);
-        graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
-     
-                       
-',
-        #if 'legend' is present, update it.
-        ifelse(legend,'
-          //refresh legend
-          legend.lines = [];
-          while(legend.list.firstChild){
-            legend.list.removeChild(legend.list.firstChild);
+        var palette = new Rickshaw.Color.Palette( { scheme: \'colorwheel\' } );
+        var dataSer = data.map( function(s){
+          return ({name : s.name, color: palette.color(), 
+                  data: [{x: Number(s.x), y:Number(s.y)}]});
+        });
+        var legend;
+
+        //only subscribe to events associated with this graph.
+        if (message.name == "',outputId,'"){
+          if (!graph){
+            graph = new Rickshaw.Graph({
+              element: document.querySelector("#',outputId,'"),
+              width: \'', (width),'\',
+              height: \'', (height),'\',
+              renderer: \'line\',
+              series: dataSer
+            });
+            var xAxis = new Rickshaw.Graph.Axis.',axisType,'({
+                graph: graph
+            });
+            
+            xAxis.render();
+          
+          
+            var yAxis = new Rickshaw.Graph.Axis.Y({
+                graph: graph
+            });
+            yAxis.render();
+
+
+            ',legendStr,'
+
           }
-                 
-          legend.series = graph.series;
-          legend.series.forEach( function(s) {
-            legend.addLine(s);
-          } );
-               
-'),
-'
+
+      graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
+  
       graph.render();
     }
   }
   );
-
-
-  var xAxis = new Rickshaw.Graph.Axis.',axisType,'({
-      graph: graph
-  });
-  
-  xAxis.render();
-
-
-  var yAxis = new Rickshaw.Graph.Axis.Y({
-      graph: graph
-  });
-  yAxis.render();
-
-  graph.render();
-
-  ',legendStr,
-'
-                       
 
 });'))
 )
