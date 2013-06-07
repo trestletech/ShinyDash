@@ -62,6 +62,7 @@ lookupIconName <- function(code){
 #' @export
 renderWeather <- function (woeid=3369, refresh = 15, session) {
   require(XML)
+  require(httr)
   reactive({
     invalidateLater(round(refresh*60*1000), session)
     
