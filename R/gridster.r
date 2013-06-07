@@ -41,8 +41,7 @@ gridster <- function(..., margin.x = 16, margin.y = 16, tile.width = 140, tile.h
       tags$script(src = 'shinyDash/gridster/shiny-dash-init.js'),
       tags$link(rel = 'stylesheet',
                 type = 'text/css',
-                href = 'shinyDash/gridster/shiny-dash.css'),         
-      tags$script(src = 'shinyDash/shiny_status_binding.js'),
+                href = 'shinyDash/gridster/shiny-dash.css'),
       tags$link(rel = 'stylesheet',
                 type = 'text/css',
                 href = 'shinyDash/styles.css')

@@ -17,3 +17,4 @@ Collate:
     'sendGraphData.R'
     'graphOutput.R'
     'areaGraphOutput.R'
+    'htmlWidgetOutput.R'
