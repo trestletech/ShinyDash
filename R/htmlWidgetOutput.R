@@ -2,6 +2,7 @@
 #' 
 #' @param outputId output variable which will be used in addressing from the
 #' server.
+#' @param ... Additional elements to be included in the widget.
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 #' @export
 htmlWidgetOutput <- function(outputId, ...) {

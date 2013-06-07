@@ -7,6 +7,9 @@
 \arguments{
   \item{outputId}{output variable which will be used in
   addressing from the server.}
+
+  \item{...}{Additional elements to be included in the
+  widget.}
 }
 \description{
   Create an arbitrary HTML widget

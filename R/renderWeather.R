@@ -56,9 +56,12 @@ lookupIconName <- function(code){
 #' @param refresh the frequency (in minutes) to use when refreshing the widget.
 #' @param session The session in which this reactive function is operating.
 #' @seealso \code{\link{weatherWidgetOutput}}
+#' @importFrom httr GET
+#' @importFrom httr content
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 #' @export
 renderWeather <- function (woeid=3369, refresh = 15, session) {
+  require(XML)
   reactive({
     invalidateLater(round(refresh*60*1000), session)
     
