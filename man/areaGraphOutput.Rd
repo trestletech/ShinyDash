@@ -1,8 +1,8 @@
-\name{lineGraphOutput}
-\alias{lineGraphOutput}
-\title{Render a line graph widget within an application page.}
+\name{areaGraphOutput}
+\alias{areaGraphOutput}
+\title{Render an area graph widget within an application page.}
 \usage{
-  lineGraphOutput(outputId, width, height, ...)
+  areaGraphOutput(outputId, width, height, ...)
 }
 \arguments{
   \item{outputId}{output variable which will be used in
@@ -20,7 +20,7 @@
   \code{\link{graphOutput}}.}
 }
 \description{
-  Render a line graph widget within an application page.
+  Render an area graph widget within an application page.
 }
 \examples{
 \dontrun{
@@ -28,7 +28,7 @@
 shinyUI(bootstrapPage(#'
  gridster(tile.width = 200, tile.height = 200,
    gridsterItem(col = 1, row = 1, size.x = 1, size.y = 1,
-     lineGraphOutput("myGraph", "150px", "150px")
+     areaGraphOutput("myGraph", "150px", "150px")
    ),
    gridsterItem(col = 2, row = 1, size.x = 1, size.y = 1,
      textOutput("myText")

@@ -16,3 +16,4 @@ Collate:
     'lineGraphOutput.R'
     'sendGraphData.R'
     'graphOutput.R'
+    'areaGraphOutput.R'

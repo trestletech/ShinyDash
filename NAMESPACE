@@ -1,3 +1,4 @@
+export(areaGraphOutput)
 export(gaugeOutput)
 export(gridster)
 export(gridsterItem)
