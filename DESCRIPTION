@@ -14,3 +14,4 @@ Collate:
     'gridster.r'
     'gaugeOutput.R'
     'lineGraphOutput.R'
+    'sendGraphData.R'

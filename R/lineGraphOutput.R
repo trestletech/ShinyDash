@@ -36,7 +36,12 @@
 #' 
 #' #The corresponding server.R
 #' shinyServer(function(input, output, session) {
-#'  output$myGraph <- {}#TODO
+#'  sendGraphData("myGraph", {
+#'    list(
+#'      y0 = 13,
+#'      y1 = 15.3
+#'    )
+#'  })
 #' } 
 #' }
 #' @seealso \code{\link{observe}}
