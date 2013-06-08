@@ -58,13 +58,15 @@ lookupIconName <- function(code){
 #' @seealso \code{\link{weatherWidgetOutput}}
 #' @importFrom httr GET
 #' @importFrom httr content
+#' @importFrom XML xmlAttrs
+#' @importFrom XML xmlRoot
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 #' @export
 renderWeather <- function (woeid=3369, refresh = 15, session) {
+  require(XML)
+  require(httr)
+  
   reactive({
-    require(XML)
-    require(httr)
-    
     invalidateLater(round(refresh*60*1000), session)
     
     url <- paste0("http://weather.yahooapis.com/forecastrss?w=",woeid,"&u=f")
