@@ -1,5 +1,6 @@
 #' Create an arbitrary HTML widget
 #' 
+#' A port of David Underwood's weather widget for Dashing: \url{https://gist.github.com/davefp/4990174}
 #' @param outputId output variable which will be used in addressing from the
 #' server
 #' @param width Graph width. Must be a valid CSS unit (like "100%", "400px", 

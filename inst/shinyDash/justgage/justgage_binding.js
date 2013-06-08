@@ -5,9 +5,12 @@ $.extend(justgageOutputBinding, {
     return scope.find('.justgage_output');
   },
   renderValue: function(el, data) {
-    if (!$(el).data('gauge')) {
+    
+    var $el = $(el);
+    
+    if (!$el.data('gauge')) {
       // If we haven't initialized this gauge yet, do it
-      $(el).data('gauge', new JustGage({
+      $el.data('gauge', new JustGage({
         id: this.getId(el),
         value: 0,
         min: 0,
@@ -16,7 +19,21 @@ $.extend(justgageOutputBinding, {
         label: "units"
       }));
     }
-    $(el).data('gauge').refresh(data);
+    $el.data('gauge').refresh(data.value);
+    
+    var $grid = $el.parent('li.gs_w');
+    
+    // Remove the previously set grid class
+    var lastGridClass = $el.data('widgetState');
+    if (lastGridClass)
+      $grid.removeClass(lastGridClass);
+    
+    $el.data('widgetState', data.widgetState);
+    
+    if (data.widgetState) {
+      $grid.addClass(data.widgetState);
+    }
+    
   }
 });
 Shiny.outputBindings.register(justgageOutputBinding, 'dashboard.justgageOutputBinding');

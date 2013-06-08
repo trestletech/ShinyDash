@@ -17,7 +17,8 @@
   coerced to a string and have "px" appended.}
 }
 \description{
-  Create an arbitrary HTML widget
+  A port of David Underwood's weather widget for Dashing:
+  \url{https://gist.github.com/davefp/4990174}
 }
 \author{
   Jeff Allen <jeff.allen@trestletechnology.net>
