@@ -3,10 +3,10 @@
 #' A port of David Underwood's weather widget for Dashing: \url{https://gist.github.com/davefp/4990174}
 #' @param outputId output variable which will be used in addressing from the
 #' server
-#' @param width Graph width. Must be a valid CSS unit (like "100%", "400px", 
+#' @param width Graph width. Must be a valid CSS unit (like "100\%", "400px", 
 #' "auto") or a number, which will be coerced to a string and have "px" 
 #' appended.
-#' @param height Graph height Must be a valid CSS unit (like "100%", "400px", 
+#' @param height Graph height Must be a valid CSS unit (like "100\%", "400px", 
 #' "auto") or a number, which will be coerced to a string and have "px" 
 #' appended.
 #' @seealso \code{\link{renderWeather}}

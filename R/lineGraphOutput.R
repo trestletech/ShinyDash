@@ -2,10 +2,10 @@
 #' 
 #' @param outputId output variable which will be used in addressing update
 #' messages.
-#' @param width Graph width. Must be a valid CSS unit (like "100%", "400px", 
+#' @param width Graph width. Must be a valid CSS unit (like "100\%", "400px", 
 #' "auto") or a number, which will be coerced to a string and have "px" 
 #' appended.
-#' @param height Graph height Must be a valid CSS unit (like "100%", "400px", 
+#' @param height Graph height Must be a valid CSS unit (like "100\%", "400px", 
 #' "auto") or a number, which will be coerced to a string and have "px" 
 #' appended.
 #' @param ... Additional arguments to be passed to \code{\link{graphOutput}}.

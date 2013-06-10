@@ -12,11 +12,11 @@
   addressing update messages.}
 
   \item{width}{Graph width. Must be a valid CSS unit (like
-  "100%", "400px", "auto") or a number, which will be
+  "100\%", "400px", "auto") or a number, which will be
   coerced to a string and have "px" appended.}
 
   \item{height}{Graph height Must be a valid CSS unit (like
-  "100%", "400px", "auto") or a number, which will be
+  "100\%", "400px", "auto") or a number, which will be
   coerced to a string and have "px" appended.}
 
   \item{axisType}{The type of X-axis to use for the graph.
