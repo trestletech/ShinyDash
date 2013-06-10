@@ -29,20 +29,14 @@ function _spliceSeries(args, maxLength) {
 
 
         var dataPt = new Object();
-        dataPt['x'] = d['x'];
-        dataPt['y'] = d['y'];
+        dataPt['x'] = Number(d['x']);
+        dataPt['y'] = Number(d['y']);
   
         var seriesFound = false;
       	series.forEach( function(s) {
     
     			var seriesKey = s.key || s.name;
     			if (!seriesKey) throw "series needs a key or a name";
-
-          if (seriesKey == "__rickshaw-init"){
-            //have to provide an initial series to get past the constructor.
-            // trim the placeholder series here.
-            series.splice(series.indexOf(s), 1);
-          }
 
   				if (seriesKey == dataKey) {
             seriesFound = true;
@@ -107,4 +101,93 @@ function ISODateString(d){
       + pad(d.getUTCHours())+':'
       + pad(d.getUTCMinutes())+':'
       + pad(d.getUTCSeconds())+'Z'
+}
+
+
+function ShinyRickshawDOM(outputId, width, height, graphType, axisType, showLegend, toolTip){
+  $(document).ready(function() { 
+    // Handle messages from server - update graph
+    var graph;
+    ShinyRickshawCallback.addRickshawHandler(function(message) {
+        var data = parseRickshawData(message);
+        var palette = new Rickshaw.Color.Palette( { scheme: 'colorwheel' } );
+        var dataSer = data.map( function(s){
+          return ({name : s.name, color: palette.color(), 
+                  data: [{x: Number(s.x), y:Number(s.y)}]});
+        });
+        var legend;
+
+        //only subscribe to events associated with this graph.
+        if (message.name == outputId){
+          if (!graph){
+            graph = new Rickshaw.Graph({
+              element: document.querySelector('#' + outputId),
+              width: width,
+              height: height,
+              renderer: graphType,
+              series: dataSer
+            });
+            var xAxis;
+            
+            if (axisType == "Time"){
+              xAxis = new Rickshaw.Graph.Axis.Time({
+                  graph: graph
+              });
+            } else{
+              xAxis = new Rickshaw.Graph.Axis.X({
+                  graph: graph
+              });
+            }
+            
+            xAxis.render();
+          
+            var yAxis = new Rickshaw.Graph.Axis.Y({
+                graph: graph
+            });
+            yAxis.render();
+
+            if(showLegend){
+              legend = new Rickshaw.Graph.Legend({
+                graph: graph,
+                element: document.getElementById(outputId + '-legend')
+              });
+            
+              var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+                graph: graph,
+                legend: legend
+              });
+            
+              var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
+                graph: graph,
+                legend: legend
+              });
+
+            }
+
+            if (toolTip){
+                            
+              var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+                  graph: graph,
+                  xFormatter: function(x) {
+                    if(axisType=="Time"){
+                      return ISODateString(new Date(x*1000))
+                    } else{
+                      return Math.floor(x)  
+                    }
+                    
+                  },
+                  yFormatter: function(y) { return Math.floor(y) }
+              } );
+            }
+            
+          }
+
+          graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
+      
+          graph.render();
+        }
+      }
+  
+    );
+  });
 }
