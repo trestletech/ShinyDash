@@ -35,6 +35,57 @@ if (document.all && !window.setInterval.isPolyfill) {
   window.setInterval.isPolyfill = true;
 }
 
+function Filter (filterStr){
+  function applyFilter(filter, target){
+    filter = filter.trim();
+    if (filter.match("^round\\s*(\\d+)")){
+      var match = filter.match("^round\\s*(\\d+)");
+      var precision = 0;
+      if (match.length> 1){
+        //user specified an amount
+        precision = match[1];
+      }
+      
+      return (parseFloat(target).toFixed(precision));
+      
+    } else if(filter.match("^prepend '(.*)'$")){
+      var match = filter.match("^prepend '(.*)'$");
+      return (match[1] + target);
+    } else if(filter.match("^append '(.*)'$")){
+      var match = filter.match("^append '(.*)'$");
+      return (target + match[1]);
+    } else{
+      throw "Unrecognized filter: " + filter;
+    }
+  }
+  
+  this.process = function(str){
+    var filters = filterStr.toString().split(" | ");
+    filters.forEach(function(f){
+      str = applyFilter(f, str)
+    });
+    return(str);
+  }
+}
+
+//extend the $.text() function to include filters.
+var jqText = jQuery.fn.text;
+jQuery.fn.text = function(){
+  var filterStr = this.data("filter");
+  if (filterStr && arguments.length == 1){
+    var filter = new Filter(filterStr);
+    var filtered = filter.process(arguments[0]);
+    
+    //set `data-value` so we'll know what the underlying data was before the filter.
+    this.data("value", arguments[0]);
+    
+    return(jqText.apply(this, [filtered])); 
+  } else{
+    return(jqText.apply(this, arguments));  
+  }
+}
+
+
 /* Create an animation that scrolls from the startValue to the stopValue in 
  * `steps` steps and with an interval of `rate` millisenconds on the given 
  * element.
@@ -45,7 +96,7 @@ function NumericTicker (startVal, stopVal, $el, rate, steps){
   
   // The current value of the ticker. Saves us from having to traverse the DOM
   //  each time.
-  var currentVal = parseFloat($el.text());
+  var currentVal = parseFloat($el.data("value"));
   
   var stepSize = (stopVal - startVal)/steps;
   
@@ -83,11 +134,17 @@ $.extend(htmlWidgetOutputBinding, {
     var $el = $(el);
     
     for (var name in data){
-      var $childEl = $el.children('#' + name)
-      if ($childEl.text().match("^[\\d\\.]+$") && data[name].toString().match("^[\\d\\.]+$")){
+      var $childEl = $el.children('#' + name);
+      var childVal = $childEl.text();
+      if ($childEl.data("value")){
+        //value data element is set. Possible that the text() value itself has been manipulated with a filter, so use data-value.
+        childVal = $childEl.data("value").toString();
+      }
+      
+      if (childVal.match("^[\\d\\.]+$") && data[name].toString().match("^[\\d\\.]+$")){
         //old and new are both numeric
-        var nt = new NumericTicker(parseFloat($childEl.text()), 
-            parseFloat(data[name]), $childEl, 55, 3);
+        var nt = new NumericTicker(parseFloat(childVal), 
+            parseFloat(data[name]), $childEl, 45, 5);
         nt.start();
       } else{
         $childEl.text(data[name] || '');
