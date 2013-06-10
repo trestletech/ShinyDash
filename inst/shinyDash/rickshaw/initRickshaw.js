@@ -104,7 +104,7 @@ function ISODateString(d){
 }
 
 
-function ShinyRickshawDOM(outputId, width, height, graphType, axisType, legend, toolTip){
+function ShinyRickshawDOM(outputId, width, height, graphType, axisType, showLegend, toolTip){
   $(document).ready(function() { 
     // Handle messages from server - update graph
     var graph;
@@ -128,7 +128,7 @@ function ShinyRickshawDOM(outputId, width, height, graphType, axisType, legend, 
               series: dataSer
             });
             var xAxis;
-            /*
+            
             if (axisType == "Time"){
               xAxis = new Rickshaw.Graph.Axis.Time({
                   graph: graph
@@ -141,14 +141,12 @@ function ShinyRickshawDOM(outputId, width, height, graphType, axisType, legend, 
             
             xAxis.render();
           
-          
             var yAxis = new Rickshaw.Graph.Axis.Y({
                 graph: graph
             });
             yAxis.render();
 
-
-            if(legend){
+            if(showLegend){
               legend = new Rickshaw.Graph.Legend({
                 graph: graph,
                 element: document.getElementById(outputId + '-legend')
@@ -181,7 +179,7 @@ function ShinyRickshawDOM(outputId, width, height, graphType, axisType, legend, 
                   yFormatter: function(y) { return Math.floor(y) }
               } );
             }
-            */
+            
           }
 
           graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
