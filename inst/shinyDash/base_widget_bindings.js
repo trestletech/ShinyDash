@@ -128,6 +128,10 @@ function NumericTicker (startVal, stopVal, $el, rate, steps){
   
 }
 
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 var htmlWidgetOutputBinding = new Shiny.OutputBinding();
 $.extend(htmlWidgetOutputBinding, {
   find: function(scope) {
@@ -144,7 +148,7 @@ $.extend(htmlWidgetOutputBinding, {
         childVal = $childEl.data("value").toString();
       }
       
-      if (childVal.match("^[\\d\\.]+$") && data[name].toString().match("^[\\d\\.]+$")){
+      if (isNumber(childVal) && isNumber(data[name].toString()) && $childEl.data("numeric-ticker")){
         //old and new are both numeric
         var nt = new NumericTicker(parseFloat(childVal), 
             parseFloat(data[name]), $childEl, 45, 5);
