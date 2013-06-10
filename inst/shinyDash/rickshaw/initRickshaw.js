@@ -30,7 +30,7 @@ function _spliceSeries(args, maxLength) {
 
         var dataPt = new Object();
         dataPt['x'] = Number(d['x']);
-        dataPt[dataKey] = Number(d['y']);
+        dataPt['y'] = Number(d['y']);
   
         var seriesFound = false;
       	series.forEach( function(s) {
