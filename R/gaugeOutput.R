@@ -34,7 +34,7 @@
 #' @seealso \code{\link{reactive}}
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 #' @export
-gaugeOutput <- function(outputId, width, height) {
+gaugeOutput <- function(outputId, title="Title", min=0, max=1, units="", width="200px", height="200px", value=min) {
   tagList(
     singleton(tags$head(
       tags$script(src = 'shinyDash/justgage/justgage.1.0.1.min.js'),
@@ -43,6 +43,14 @@ gaugeOutput <- function(outputId, width, height) {
     )),
     tags$div(id = outputId, class = "justgage_output", style = 
                paste("width:", shiny:::validateCssUnit(width), ";", "height:", 
-                     shiny:::validateCssUnit(height), ";"))
+                     shiny:::validateCssUnit(height), ";")),
+    tags$script(paste0("GageOutput('",outputId,"',
+                       '",title,"',
+                       '",min,"',
+                       '",max,"',
+                       '",units,"',
+                       '",validateCssUnit(width),"',
+                       '",validateCssUnit(height),"',
+                       '",value,"')"))
   )
 }

@@ -1,3 +1,21 @@
+function GageOutput(outputId, title, min, max, units, width, height, initialValue){
+  $(document).ready(function() {
+    var $el = $('#' + outputId); 
+    if (!$el.data('gauge')) {
+       // If we haven't initialized this gauge yet, do it
+         $el.data('gauge', new JustGage({
+           id: outputId,
+           value: initialValue,
+           min: min,
+           max: max,
+           title: title,
+           label: units
+         }));
+       }
+  });
+}
+
+
 // This output binding handles statusOutputBindings
 var justgageOutputBinding = new Shiny.OutputBinding();
 $.extend(justgageOutputBinding, {
@@ -8,17 +26,6 @@ $.extend(justgageOutputBinding, {
     
     var $el = $(el);
     
-    if (!$el.data('gauge')) {
-      // If we haven't initialized this gauge yet, do it
-      $el.data('gauge', new JustGage({
-        id: this.getId(el),
-        value: 0,
-        min: 0,
-        max: 200,
-        title: "Mean of last 10",
-        label: "units"
-      }));
-    }
     $el.data('gauge').refresh(data.value);
     
     var $grid = $el.parent('li.gs_w');

@@ -2,7 +2,9 @@
 \alias{gaugeOutput}
 \title{Render a gauge widget within an application page.}
 \usage{
-  gaugeOutput(outputId, width, height)
+  gaugeOutput(outputId, title = "Title", min = 0, max = 1,
+    units = "", width = "200px", height = "200px",
+    value = min)
 }
 \arguments{
   \item{outputId}{output variable from which to read the
