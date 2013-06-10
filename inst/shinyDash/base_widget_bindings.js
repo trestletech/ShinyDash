@@ -100,6 +100,8 @@ function NumericTicker (startVal, stopVal, $el, rate, steps){
   
   var stepSize = (stopVal - startVal)/steps;
   
+  var stepCounter = 0;
+  
   function clear(){
     clearInterval(intId);
   }  
@@ -110,13 +112,14 @@ function NumericTicker (startVal, stopVal, $el, rate, steps){
   }
   
   function step(){
-    if (Math.abs(currentVal - stopVal) < Math.abs(stepSize)){
+    if (stepCounter >= steps){
       //last step. Set to equals and exit
       setVal(stopVal);
       clear();
     } else{
       setVal(currentVal + stepSize);
     }
+    stepCounter++;
   }
   
   this.start = function(){
