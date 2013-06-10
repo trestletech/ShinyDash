@@ -30,8 +30,8 @@ graphOutput <- function(outputId, width, height,
   
   legendDiv <- ""
   if (legend){
-      legendDiv <- tags$div(id= paste0(outputId, "-legend"), class="rickshaw_legend",
-           style=paste0("float: left; margin-left: 50px; margin-top: -",shiny:::validateCssUnit(height), ";"))
+      legendDiv <- tags$div(id= paste(outputId, "-legend", sep=""), class="rickshaw_legend",
+           style=paste("float: left; margin-left: 50px; margin-top: -",shiny:::validateCssUnit(height), ";", sep=""))
   }
   
   axisType <- match.arg(axisType)

@@ -69,7 +69,7 @@ renderWeather <- function (woeid=3369, refresh = 15, session) {
   reactive({
     invalidateLater(round(refresh*60*1000), session)
     
-    url <- paste0("http://weather.yahooapis.com/forecastrss?w=",woeid,"&u=f")
+    url <- paste("http://weather.yahooapis.com/forecastrss?w=",woeid,"&u=f", sep="")
     xml <- content(GET(url))
     root <- xmlRoot(xml)
     weatherData <- xmlAttrs(root[["channel"]][["item"]][["condition"]])

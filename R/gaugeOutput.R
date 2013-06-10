@@ -44,13 +44,13 @@ gaugeOutput <- function(outputId, title="Title", min=0, max=1, units="", width="
     tags$div(id = outputId, class = "justgage_output", style = 
                paste("width:", shiny:::validateCssUnit(width), ";", "height:", 
                      shiny:::validateCssUnit(height), ";")),
-    tags$script(paste0("GageOutput('",outputId,"',
+    tags$script(paste("GageOutput('",outputId,"',
                        '",title,"',
                        '",min,"',
                        '",max,"',
                        '",units,"',
                        '",validateCssUnit(width),"',
                        '",validateCssUnit(height),"',
-                       '",value,"')"))
+                       '",value,"')", sep=""))
   )
 }
