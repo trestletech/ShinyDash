@@ -34,45 +34,10 @@ graphOutput <- function(outputId, width, height,
            style=paste0("float: left; margin-left: 50px; margin-top: -",shiny:::validateCssUnit(height), ";"))
   }
   
-  toolTipStr <- ""
-  if (toolTip){
-    toolTipStr <- paste0('
-var hoverDetail = new Rickshaw.Graph.HoverDetail( {
-    graph: graph,
-    xFormatter: function(x) { ', 
-      ifelse(axisType=="time",
-        'return ISODateString(new Date(x*1000))',
-        'return Math.floor(x)'
-      ),'},
-    yFormatter: function(y) { return Math.floor(y) }
-} );
-')
-  }
-  
   axisType <- match.arg(axisType)
   axisType <- switch(axisType, 
                      time = "Time",
                      numeric = "X")
-  
-  legendStr <- ""
-  if (legend){
-    legendStr <- paste0('
-  legend = new Rickshaw.Graph.Legend({
-    graph: graph,
-    element: document.getElementById(\'',outputId,'-legend\')
-  });
-
-  var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
-    graph: graph,
-    legend: legend
-  });
-
-  var highlighter = new Rickshaw.Graph.Behavior.Series.Highlight({
-    graph: graph,
-    legend: legend
-  });
-')
-  }
   
   tagList(
     singleton(tags$head(
@@ -89,57 +54,13 @@ var hoverDetail = new Rickshaw.Graph.HoverDetail( {
     
     #include the legend element if 'legend' is true.
     legendDiv,
-    tags$script(paste0('
-
-$(document).ready(function() { 
-  // Handle messages from server - update graph
-  var graph;
-  ShinyRickshawCallback.addRickshawHandler(
-     function(message) {
-       
-        var data = parseRickshawData(message);
-        var palette = new Rickshaw.Color.Palette( { scheme: \'colorwheel\' } );
-        var dataSer = data.map( function(s){
-          return ({name : s.name, color: palette.color(), 
-                  data: [{x: Number(s.x), y:Number(s.y)}]});
-        });
-        var legend;
-
-        //only subscribe to events associated with this graph.
-        if (message.name == "',outputId,'"){
-          if (!graph){
-            graph = new Rickshaw.Graph({
-              element: document.querySelector("#',outputId,'"),
-              width: \'', (width),'\',
-              height: \'', (height),'\',
-              renderer: \'',graphType,'\',
-              series: dataSer
-            });
-            var xAxis = new Rickshaw.Graph.Axis.',axisType,'({
-                graph: graph
-            });
-            
-            xAxis.render();
-          
-          
-            var yAxis = new Rickshaw.Graph.Axis.Y({
-                graph: graph
-            });
-            yAxis.render();
-
-
-            ',legendStr,'
-            ',toolTipStr,'
-
-          }
-
-      graph.series = _spliceSeries({ data: data, series: graph.series }, 100);
-  
-      graph.render();
-    }
-  }
-  );
-
-});'))
+    
+    tags$script(paste("new ShinyRickshawDOM('",outputId,"',
+                       '",validateCssUnit(width),"',
+                       '",validateCssUnit(height),"',
+                       '",type,"',
+                       '",axisType,"',
+                       '",legend,"',
+                       '",toolTip,"')", sep=""))
 )
 }
