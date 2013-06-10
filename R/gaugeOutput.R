@@ -1,10 +1,10 @@
 #' Render a gauge widget within an application page.
 #' 
 #' @param outputId output variable from which to read the gauge variable
-#' @param width Gauge width. Must be a valid CSS unit (like "100%", "400px", 
+#' @param width Gauge width. Must be a valid CSS unit (like "100\%", "400px", 
 #' "auto") or a number, which will be coerced to a string and have "px" 
 #' appended.
-#' @param height Gauge height Must be a valid CSS unit (like "100%", "400px", 
+#' @param height Gauge height Must be a valid CSS unit (like "100\%", "400px", 
 #' "auto") or a number, which will be coerced to a string and have "px" 
 #' appended.
 #' @examples
