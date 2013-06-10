@@ -11,7 +11,7 @@ function parseRickshawData(data){
         series[i]['x'] = data['x'];
         i++;
     }
-  })  
+  })
   
   return series;
 }
@@ -86,7 +86,7 @@ function ShinyRickshaw (){
 var ShinyRickshawCallback = new ShinyRickshaw();
 
 //broadcast the message to all subscribed callbacks.
-Shiny.addCustomMessageHandler("updateRickshaw", 
+Shiny.addCustomMessageHandler("updateRickshaw",
   function(message){
     ShinyRickshawCallback.fireMessage(message);
   }

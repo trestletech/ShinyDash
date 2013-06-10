@@ -179,9 +179,9 @@ $.extend(weatherWidgetOutputBinding, {
   renderValue: function(el, data) {
     var $el = $(el);
     
-    $el.children('#temp').text(data["temp"] + "°F" || '');
-    $el.children('#title').text(data["title"] || '');
-    $el.children('#condition').text(data["condition"] || '');
+    $el.children('.weather-temp').text(data["temp"] + "°F" || '');
+    $el.children('.weather-title').text(data["title"] || '');
+    $el.children('.weather-condition').text(data["condition"] || '');
     
     if (data["climacon"]){
        var climac = $el.children('i.climacon');

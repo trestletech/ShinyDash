@@ -2,12 +2,12 @@
   background-color: rgba(255, 255, 255, 0.7);
   
   }
-  .weather_widget_output #title {
+  .weather_widget_output .weather-title {
     color: rgba(25, 25, 25, 0.7); }
-  .weather_widget_output #temp {
+  .weather_widget_output .weather-temp {
     text-align: center;
     color: rgba(25, 25, 25, 0.7); }
-  .weather_widget_output #condition {
+  .weather_widget_output .weather-condition {
     text-align: center;
     font-weight: 500;
     font-size: 30px;

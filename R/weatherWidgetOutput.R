@@ -27,9 +27,9 @@ weatherWidgetOutput <- function(outputId, width, height) {
                paste("width:", shiny:::validateCssUnit(width), ";", "height:", 
                      shiny:::validateCssUnit(height), ";"),
              tags$i(class="climacon icon-background"),
-             tags$h1(id="title"),
-             tags$h2(id="temp"),
-             tags$p(id="condition")
+             tags$h1(class="weather-title"),
+             tags$h2(class="weather-temp"),
+             tags$p(class="weather-condition")
           )
     
   )
