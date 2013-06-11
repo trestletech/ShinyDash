@@ -148,7 +148,7 @@ $.extend(htmlWidgetOutputBinding, {
         childVal = $childEl.data("value").toString();
       }
       
-      if (isNumber(childVal) && isNumber(data[name].toString()) && $childEl.data("numeric-ticker")){
+      if (isNumber(childVal) && isNumber(data[name].toString()) && $childEl.hasClass("numeric")){
         //old and new are both numeric
         var nt = new NumericTicker(parseFloat(childVal), 
             parseFloat(data[name]), $childEl, 45, 5);
