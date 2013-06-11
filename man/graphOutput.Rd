@@ -3,7 +3,8 @@
 \title{Render a Rickshaw graph}
 \usage{
   graphOutput(outputId, width, height,
-    axisType = c("numeric", "time"), legend = TRUE,
+    axisType = c("numeric", "time"),
+    legend = c("topleft", "topright", "bottomleft", "bottomright"),
     toolTip = TRUE,
     type = c("line", "scatterplot", "area", "bar"))
 }
@@ -25,9 +26,10 @@
   and will render them accordingly. \code{numeric} will not
   manipulate the provided numeric values.}
 
-  \item{legend}{If \code{TRUE}, an interactive legend of
-  all series of data displayed in the graph will be
-  visible.}
+  \item{legend}{If specified, an interactive legend of all
+  series of data displayed in the graph will be visible at
+  the location given. If unspecified, the legend will not
+  be visible.}
 
   \item{toolTip}{If \code{TRUE}, a tooltip providing
   additional information about the values in the graph will

@@ -12,8 +12,9 @@
 #' the data will be provided as a number of seconds since the epoch (see 
 #' \code{\link{Sys.time}}) and will render them accordingly. \code{numeric} will 
 #' not manipulate the provided numeric values.
-#' @param legend If \code{TRUE}, an interactive legend of all series of data
-#' displayed in the graph will be visible.
+#' @param legend If specified, an interactive legend of all series of data
+#' displayed in the graph will be visible at the location given. If unspecified,
+#' the legend will not be visible.
 #' @param toolTip If \code{TRUE}, a tooltip providing additional information
 #' about the values in the graph will be available when the user points the
 #' mouse at the graph.
@@ -22,16 +23,29 @@
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 graphOutput <- function(outputId, width, height, 
                             axisType=c("numeric", "time"),
-                            legend = TRUE,
+                            legend = c("topleft", "topright", "bottomleft", "bottomright"),
                             toolTip = TRUE, 
                             type=c("line", "scatterplot", "area", "bar")) {
   
   graphType <- match.arg(type)
   
   legendDiv <- ""
-  if (legend){
-      legendDiv <- tags$div(id= paste(outputId, "-legend", sep=""), class="rickshaw_legend",
-           style=paste("float: left; margin-left: 50px; margin-top: -",shiny:::validateCssUnit(height), ";", sep=""))
+  if (!missing(legend)){
+    legend <- match.arg(legend)
+    
+    side <- "right"
+    if (grepl("left", legend)){
+      side <- "left"
+    }
+        
+    marginAdjust <- "margin-top: -100px"
+    if (grepl("top", legend)){
+      marginAdjust <- paste("margin-top: -", shiny:::validateCssUnit(height), ";", sep="")
+    }
+    
+    legendDiv <- tags$div(id= paste(outputId, "-legend", sep=""), class="rickshaw_legend",
+           style=paste("float: ",side,"; margin-",side,": 50px;", marginAdjust, sep=""))
+      
   }
   
   axisType <- match.arg(axisType)
@@ -60,7 +74,7 @@ graphOutput <- function(outputId, width, height,
                        '",as.integer(height),"',
                        '",type,"',
                        '",axisType,"',
-                       '",legend,"',
+                       ",ifelse(missing(legend), 'false', 'true'),",
                        '",toolTip,"')", sep=""))
 )
 }
