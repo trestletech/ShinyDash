@@ -141,7 +141,7 @@ $.extend(htmlWidgetOutputBinding, {
     var $el = $(el);
     
     for (var name in data){
-      var $childEl = $el.children('#' + name);
+      var $childEl = $el.find('#' + name);
       var childVal = $childEl.text();
       if ($childEl.data("value")){
         //value data element is set. Possible that the text() value itself has been manipulated with a filter, so use data-value.
