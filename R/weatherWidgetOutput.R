@@ -9,6 +9,7 @@
 #' @param height Graph height Must be a valid CSS unit (like "100\%", "400px", 
 #' "auto") or a number, which will be coerced to a string and have "px" 
 #' appended.
+#' @importFrom shiny validateCssUnit
 #' @seealso \code{\link{renderWeather}}
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 #' @export
@@ -24,8 +25,8 @@ weatherWidgetOutput <- function(outputId, width, height) {
     )),
   
     tags$div(id = outputId, class = "weather_widget_output", style = 
-               paste("width:", shiny:::validateCssUnit(width), ";", "height:", 
-                     shiny:::validateCssUnit(height), ";"),
+               paste("width:", validateCssUnit(width), ";", "height:", 
+                     validateCssUnit(height), ";"),
              tags$i(class="climacon icon-background"),
              tags$h1(class="weather-title"),
              tags$h2(class="weather-temp"),

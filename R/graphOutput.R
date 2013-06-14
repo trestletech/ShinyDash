@@ -2,9 +2,9 @@
 #' 
 #' @param outputId output variable which will be used in addressing update
 #' messages.
-#' @param width Graph width. Must be a valid CSS unit (like "100\%", "400px", 
-#' "auto") or a number, which will be coerced to a string and have "px" 
-#' appended.
+#' @param width Graph width. Until more testing is done with Rickshaw, your
+#'  safest bet is to leave these as numeric values representing the units in 
+#'  pixels.
 #' @param height Graph height Must be a valid CSS unit (like "100\%", "400px", 
 #' "auto") or a number, which will be coerced to a string and have "px" 
 #' appended.
@@ -19,6 +19,7 @@
 #' about the values in the graph will be available when the user points the
 #' mouse at the graph.
 #' @param type The renderer to use when displaying the graph.
+#' @importFrom shiny validateCssUnit
 #' @seealso \code{\link{lineGraphOutput}}
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 graphOutput <- function(outputId, width, height, 
@@ -40,7 +41,7 @@ graphOutput <- function(outputId, width, height,
         
     marginAdjust <- "margin-top: -100px"
     if (grepl("top", legend)){
-      marginAdjust <- paste("margin-top: -", shiny:::validateCssUnit(height), ";", sep="")
+      marginAdjust <- paste("margin-top: -", validateCssUnit(height), ";", sep="")
     }
     
     legendDiv <- tags$div(id= paste(outputId, "-legend", sep=""), class="rickshaw_legend",
@@ -63,8 +64,8 @@ graphOutput <- function(outputId, width, height,
                 href = 'shinyDash/rickshaw/rickshaw.min.css')
     )),
     tags$div(id = outputId, class = "rickshaw_output", style = 
-               paste("width:", shiny:::validateCssUnit(width), ";", "height:", 
-                     shiny:::validateCssUnit(height), ";")),
+               paste("width:", validateCssUnit(width), ";", "height:", 
+                     validateCssUnit(height), ";")),
     
     #include the legend element if 'legend' is true.
     legendDiv,

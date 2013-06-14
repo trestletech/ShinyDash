@@ -12,9 +12,9 @@
   \item{outputId}{output variable which will be used in
   addressing update messages.}
 
-  \item{width}{Graph width. Must be a valid CSS unit (like
-  "100\%", "400px", "auto") or a number, which will be
-  coerced to a string and have "px" appended.}
+  \item{width}{Graph width. Until more testing is done with
+  Rickshaw, your safest bet is to leave these as numeric
+  values representing the units in pixels.}
 
   \item{height}{Graph height Must be a valid CSS unit (like
   "100\%", "400px", "auto") or a number, which will be

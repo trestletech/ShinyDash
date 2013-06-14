@@ -42,8 +42,8 @@ gaugeOutput <- function(outputId, title="Title", min=0, max=1, units="", width="
       tags$script(src = 'shinyDash/justgage/justgage_binding.js')
     )),
     tags$div(id = outputId, class = "justgage_output", style = 
-               paste("width:", shiny:::validateCssUnit(width), ";", "height:", 
-                     shiny:::validateCssUnit(height), ";")),
+               paste("width:", validateCssUnit(width), ";", "height:", 
+                     validateCssUnit(height), ";")),
     tags$script(paste("GageOutput('",outputId,"',
                        '",title,"',
                        '",min,"',
