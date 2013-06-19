@@ -28,12 +28,10 @@
 #' @export
 #' @author Winston Chang
 gridster <- function(..., margin.x = 16, margin.y = 16, tile.width = 140, tile.height = 140) {
-  addResourcePath(
-    prefix = 'shinyDash',
-    directoryPath = system.file('shinyDash', package='ShinyDash'))
-
+  init()
   tagList(
     singleton(tags$head(
+      initResourcePaths(),
       tags$script(src = 'shinyDash/gridster/jquery.gridster.min.js'),
       tags$link(rel = 'stylesheet',
                 type = 'text/css',

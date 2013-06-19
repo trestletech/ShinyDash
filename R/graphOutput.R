@@ -27,7 +27,6 @@ graphOutput <- function(outputId, width, height,
                             legend = c("topleft", "topright", "bottomleft", "bottomright"),
                             toolTip = TRUE, 
                             type=c("line", "scatterplot", "area", "bar")) {
-  
   graphType <- match.arg(type)
   
   legendDiv <- ""
@@ -56,6 +55,7 @@ graphOutput <- function(outputId, width, height,
   
   tagList(
     singleton(tags$head(
+      initResourcePaths(),
       tags$script(src = 'shinyDash/rickshaw/d3.v3.min.js'),
       tags$script(src = 'shinyDash/rickshaw/rickshaw.min.js'),
       tags$script(src = 'shinyDash/rickshaw/initRickshaw.js'),
