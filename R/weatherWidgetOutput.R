@@ -15,6 +15,7 @@
 #' @export
 weatherWidgetOutput <- function(outputId, width, height) {
   tagList(
+    initResourcePaths(),
     singleton(tags$head(
       tags$script(src = 'shinyDash/base_widget_bindings.js')
     )),

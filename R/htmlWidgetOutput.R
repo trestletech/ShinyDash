@@ -8,6 +8,7 @@
 htmlWidgetOutput <- function(outputId, ...) {
   tagList(
     singleton(tags$head(
+      initResourcePaths(),
       tags$script(src = 'shinyDash/base_widget_bindings.js')
     )),
   
