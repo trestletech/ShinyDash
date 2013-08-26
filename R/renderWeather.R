@@ -62,9 +62,11 @@ lookupIconName <- function(code){
 #' @importFrom XML xmlRoot
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 #' @export
-renderWeather <- function (woeid=3369, units="f", refresh = 15, session) {
+renderWeather <- function (woeid=3369, units=c("f", "c"), refresh = 15, session) {
   require(XML)
   require(httr)
+  
+  units = match.arg(units)
   
   reactive({
     invalidateLater(round(refresh*60*1000), session)
