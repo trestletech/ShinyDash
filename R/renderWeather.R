@@ -62,21 +62,21 @@ lookupIconName <- function(code){
 #' @importFrom XML xmlRoot
 #' @author Jeff Allen <jeff.allen@@trestletechnology.net>
 #' @export
-renderWeather <- function (woeid=3369, refresh = 15, session) {
+renderWeather <- function (woeid=3369, units="f", refresh = 15, session) {
   require(XML)
   require(httr)
   
   reactive({
     invalidateLater(round(refresh*60*1000), session)
     
-    url <- paste("http://weather.yahooapis.com/forecastrss?w=",woeid,"&u=f", sep="")
+    url <- paste("http://weather.yahooapis.com/forecastrss?w=",woeid,"&u=", units, sep="")
     xml <- content(GET(url))
     root <- xmlRoot(xml)
     weatherData <- xmlAttrs(root[["channel"]][["item"]][["condition"]])
     weatherLocation <- xmlAttrs(root[["channel"]][["location"]])
     list (
       condition = weatherData[["text"]],
-      temp = weatherData[["temp"]],
+      temp = paste(weatherData[["temp"]]," º",if(units=="c") "C" else "F", sep=""),
       climacon = lookupIconName(weatherData["code"]),
       title = paste(weatherLocation["city"], "Weather")
     )
