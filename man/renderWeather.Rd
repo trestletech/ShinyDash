@@ -2,15 +2,15 @@
 \alias{renderWeather}
 \title{Download and parse weather for a weatherWidgetOutput element}
 \usage{
-  renderWeather(woeid = 3369, refresh = 15, session)
+  renderWeather(woeid = 3369, units = "F", refresh = 15, session)
 }
 \arguments{
   \item{woeid}{The "Where On Earth" ID of the location you
   want to monitor. You can look up this ID at
   \url{http://woeid.rosselliot.co.nz}.}
   
-  \item{units}{temperature scale: f for Fahrenheit or 
-  c for celsius.}
+  \item{units}{Temperature scale: F for Fahrenheit or 
+  C for celsius.}
 
   \item{refresh}{the frequency (in minutes) to use when
   refreshing the widget.}
