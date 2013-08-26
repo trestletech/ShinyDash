@@ -183,7 +183,7 @@ $.extend(weatherWidgetOutputBinding, {
   renderValue: function(el, data) {
     var $el = $(el);
     
-    $el.children('.weather-temp').text(data["temp"] + "°F" || '');
+    $el.children('.weather-temp').text(data["temp"] || '');
     $el.children('.weather-title').text(data["title"] || '');
     $el.children('.weather-condition').text(data["condition"] || '');
     
