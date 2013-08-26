@@ -28,7 +28,7 @@
 #' @export
 #' @author Winston Chang
 gridster <- function(..., margin.x = 16, margin.y = 16, tile.width = 140, tile.height = 140) {
-  init()
+  initResourcePaths()
   tagList(
     singleton(tags$head(
       initResourcePaths(),

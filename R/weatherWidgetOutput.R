@@ -1,4 +1,4 @@
-#' Create an arbitrary HTML widget
+#' Create a widget to display the weather.
 #' 
 #' A port of David Underwood's weather widget for Dashing: \url{https://gist.github.com/davefp/4990174}
 #' @param outputId output variable which will be used in addressing from the
@@ -15,8 +15,8 @@
 #' @export
 weatherWidgetOutput <- function(outputId, width, height) {
   tagList(
-    initResourcePaths(),
     singleton(tags$head(
+      initResourcePaths(),
       tags$script(src = 'shinyDash/base_widget_bindings.js')
     )),
     singleton(tags$head(
