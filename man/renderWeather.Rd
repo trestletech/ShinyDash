@@ -9,6 +9,9 @@
   want to monitor. You can look up this ID at
   \url{http://woeid.rosselliot.co.nz}.}
 
+  \item{units}{The temperature scale to use. "f" for Fahrenheit
+  or "c" for Celsius.}
+
   \item{refresh}{the frequency (in minutes) to use when
   refreshing the widget.}
 
