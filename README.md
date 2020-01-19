@@ -6,7 +6,7 @@ A sample application built on the `ShinyDash` package is available [here](https:
 To install, install the `devtools` package if necessary (`install.packages("devtools")`) and run:
 
 ```
-devtools::install_github("ShinyDash", "trestletech")
+devtools::install_github("trestletech/ShinyDash")
 ```
 
 External Javascript libraries used in this app include:
